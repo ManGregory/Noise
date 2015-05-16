@@ -16,15 +16,7 @@ namespace NoiseWin
 {
     public partial class MainForm : Form
     {
-        private ObservableCollection<MapElement> _mapElements = new ObservableCollection<MapElement>();
-
-        private void AddMapElement(IList newItems)
-        {
-            foreach (var item in newItems)
-            {
-                AddMapControl(item as MapElement);
-            }
-        }
+        private BindingList<MapElement> _mapElements = new BindingList<MapElement>();
 
         private void AddMapControl(MapElement item)
         {
@@ -33,16 +25,22 @@ namespace NoiseWin
                 Parent = pnlMap,
                 Width = 50,
                 Height = 50,
-                Text = _mapElements.Count.ToString(),
+                Text = item.Number.ToString(),
                 Font = new Font("Microsoft Sans Serif", 25F),
-                ForeColor = Color.Red,
-                Location = new Point(0, _mapElements.Count * 50),
+                ForeColor = item.MapElementType == MapElementType.NoiseSource ? Color.Red : Color.Blue,
+                Location = new Point(0, (_mapElements.Count - 1) * 50),
                 Tag = item,
                 ContextMenuStrip = msMapControl,
             };
             newMapControl.MouseDown += newMapControl_MouseDown;
             newMapControl.Click += newMapControl_Click;
             ControlMover.Init(newMapControl);
+            BindNoiseList();
+        }
+
+        private void BindNoiseList()
+        {
+            lstNoiseSources.DataSource = _mapElements.Where(m => m.MapElementType == MapElementType.NoiseSource).ToList();
         }
 
         private void newMapControl_Click(object sender, EventArgs e)
@@ -69,32 +67,30 @@ namespace NoiseWin
         public MainForm()
         {
             InitializeComponent();
-            _mapElements.CollectionChanged += ((sender, args) =>
+            _mapElements.RaiseListChangedEvents = true;
+            _mapElements.ListChanged += (sender, args) =>
             {
-                if (args.Action == NotifyCollectionChangedAction.Add)
+                if (args.ListChangedType == ListChangedType.ItemAdded)
                 {
-                    AddMapElement(args.NewItems);
-                } 
-                else if (args.Action == NotifyCollectionChangedAction.Remove)
-                {
-                    
+                    AddMapControl(_mapElements[args.NewIndex]);
                 }
-            });
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
+            };
         }
 
         private void btnAddNoiseSource_Click(object sender, EventArgs e)
         {
-            _mapElements.Add(new NoiseMapElement());
+            _mapElements.Add(new NoiseMapElement
+            {
+                Number = _mapElements.Count(m => m.MapElementType == MapElementType.NoiseSource) + 1
+            });
+        }
+
+        private void btnAddPartition_Click(object sender, EventArgs e)
+        {
+            _mapElements.Add(new PartitionMapElement
+            {
+                Number = _mapElements.Count(m => m.MapElementType == MapElementType.Partition) + 1
+            });
         }
 
         private void miRemove_Click(object sender, EventArgs e)
@@ -107,6 +103,11 @@ namespace NoiseWin
                 pnlMap.Controls.Remove(btn);
                 _mapElements.Remove(btn.Tag as MapElement);
             }
+        }
+
+        private void pgMapControl_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            BindNoiseList();
         }
     }
 }

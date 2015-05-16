@@ -12,5 +12,10 @@ namespace NoiseWin
         {
             MapElementType = MapElementType.Partition;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Перегородка № {0} ({1})", Number, Name);
+        }
     }
 }
