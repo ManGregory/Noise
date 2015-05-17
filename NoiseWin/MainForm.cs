@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NoiseWin.Helper;
 
@@ -169,6 +162,8 @@ namespace NoiseWin
         {
             using (var sd = new SaveFileDialog())
             {
+                sd.DefaultExt = "xml";
+                sd.Filter = @"Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
                 if (sd.ShowDialog(this) == DialogResult.OK)
                 {
                     Map.SaveToFile(sd.FileName, _map);
@@ -180,6 +175,7 @@ namespace NoiseWin
         {
             using (var od = new OpenFileDialog())
             {
+                od.Filter = @"Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
                 if (od.ShowDialog(this) == DialogResult.OK)
                 {
                     var map = Map.LoadFromFile(od.FileName);
