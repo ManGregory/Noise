@@ -44,7 +44,9 @@ namespace NoiseWin
 
         private void BindNoiseList()
         {
-            lstNoiseSources.DataSource = _map.MapElements.Where(m => m.MapElementType == MapElementType.NoiseSource).ToList();
+            var noiseMapElements = _map.MapElements.Where(m => m.MapElementType == MapElementType.NoiseSource).ToList();
+            lstNoiseSources.DataSource = noiseMapElements;            
+            wbInputTable.DocumentText = NoiseHelper.CreateInputDataTable(noiseMapElements);
         }
 
         private void newMapControl_Click(object sender, EventArgs e)
@@ -72,6 +74,7 @@ namespace NoiseWin
         {
             InitializeComponent();
             InitMap();
+            wbInputTable.Navigate("about:blank");
         }
 
         private void InitMap()

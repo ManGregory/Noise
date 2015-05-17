@@ -58,6 +58,7 @@
             this.txtCalcResults = new System.Windows.Forms.RichTextBox();
             this.msMapControl = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.wbInputTable = new System.Windows.Forms.WebBrowser();
             this.msMain.SuspendLayout();
             this.pnlControls.SuspendLayout();
             this.pnlData.SuspendLayout();
@@ -96,26 +97,26 @@
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(152, 22);
+            this.miOpen.Size = new System.Drawing.Size(132, 22);
             this.miOpen.Text = "Открыть";
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // miSave
             // 
             this.miSave.Name = "miSave";
-            this.miSave.Size = new System.Drawing.Size(152, 22);
+            this.miSave.Size = new System.Drawing.Size(132, 22);
             this.miSave.Text = "Сохранить";
             this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(129, 6);
             // 
             // miClose
             // 
             this.miClose.Name = "miClose";
-            this.miClose.Size = new System.Drawing.Size(152, 22);
+            this.miClose.Size = new System.Drawing.Size(132, 22);
             this.miClose.Text = "Выход";
             // 
             // helpToolStripMenuItem
@@ -278,6 +279,7 @@
             // 
             // tpDescription
             // 
+            this.tpDescription.Controls.Add(this.wbInputTable);
             this.tpDescription.Controls.Add(this.lstNoiseSources);
             this.tpDescription.Location = new System.Drawing.Point(4, 23);
             this.tpDescription.Name = "tpDescription";
@@ -297,6 +299,7 @@
             this.lstNoiseSources.Name = "lstNoiseSources";
             this.lstNoiseSources.Size = new System.Drawing.Size(877, 220);
             this.lstNoiseSources.TabIndex = 0;
+            this.lstNoiseSources.Visible = false;
             // 
             // tpCalcTable
             // 
@@ -331,6 +334,15 @@
             this.miRemove.Size = new System.Drawing.Size(118, 22);
             this.miRemove.Text = "Удалить";
             this.miRemove.Click += new System.EventHandler(this.miRemove_Click);
+            // 
+            // wbInputTable
+            // 
+            this.wbInputTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbInputTable.Location = new System.Drawing.Point(3, 3);
+            this.wbInputTable.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbInputTable.Name = "wbInputTable";
+            this.wbInputTable.Size = new System.Drawing.Size(877, 220);
+            this.wbInputTable.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -393,6 +405,7 @@
         private System.Windows.Forms.ListBox lstNoiseSources;
         private System.Windows.Forms.Button btnCalc;
         private System.Windows.Forms.RichTextBox txtCalcResults;
+        private System.Windows.Forms.WebBrowser wbInputTable;
     }
 }
 
