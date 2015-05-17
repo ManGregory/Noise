@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NoiseWin
 {
-    class PartitionMapElement : MapElement
+    [Serializable]
+    public class PartitionMapElement : MapElement
     {
         public PartitionMapElement()
         {

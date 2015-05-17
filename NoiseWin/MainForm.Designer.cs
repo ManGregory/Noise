@@ -40,6 +40,8 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.miAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.btnCalc = new System.Windows.Forms.Button();
+            this.btnAddPartition = new System.Windows.Forms.Button();
             this.btnClearMap = new System.Windows.Forms.Button();
             this.btnAddNoiseSource = new System.Windows.Forms.Button();
             this.pnlData = new System.Windows.Forms.Panel();
@@ -51,11 +53,11 @@
             this.pnlInfo = new System.Windows.Forms.Panel();
             this.pgMapControl = new System.Windows.Forms.PropertyGrid();
             this.tpDescription = new System.Windows.Forms.TabPage();
+            this.lstNoiseSources = new System.Windows.Forms.ListBox();
             this.tpCalcTable = new System.Windows.Forms.TabPage();
+            this.txtCalcResults = new System.Windows.Forms.RichTextBox();
             this.msMapControl = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemove = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddPartition = new System.Windows.Forms.Button();
-            this.lstNoiseSources = new System.Windows.Forms.ListBox();
             this.msMain.SuspendLayout();
             this.pnlControls.SuspendLayout();
             this.pnlData.SuspendLayout();
@@ -64,6 +66,7 @@
             this.pnlWrapper.SuspendLayout();
             this.pnlInfo.SuspendLayout();
             this.tpDescription.SuspendLayout();
+            this.tpCalcTable.SuspendLayout();
             this.msMapControl.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,24 +96,26 @@
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(132, 22);
+            this.miOpen.Size = new System.Drawing.Size(152, 22);
             this.miOpen.Text = "Открыть";
+            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // miSave
             // 
             this.miSave.Name = "miSave";
-            this.miSave.Size = new System.Drawing.Size(132, 22);
+            this.miSave.Size = new System.Drawing.Size(152, 22);
             this.miSave.Text = "Сохранить";
+            this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(129, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // miClose
             // 
             this.miClose.Name = "miClose";
-            this.miClose.Size = new System.Drawing.Size(132, 22);
+            this.miClose.Size = new System.Drawing.Size(152, 22);
             this.miClose.Text = "Выход";
             // 
             // helpToolStripMenuItem
@@ -142,6 +147,7 @@
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.btnCalc);
             this.pnlControls.Controls.Add(this.btnAddPartition);
             this.pnlControls.Controls.Add(this.btnClearMap);
             this.pnlControls.Controls.Add(this.btnAddNoiseSource);
@@ -151,6 +157,26 @@
             this.pnlControls.Size = new System.Drawing.Size(891, 58);
             this.pnlControls.TabIndex = 1;
             // 
+            // btnCalc
+            // 
+            this.btnCalc.Location = new System.Drawing.Point(353, 9);
+            this.btnCalc.Name = "btnCalc";
+            this.btnCalc.Size = new System.Drawing.Size(111, 39);
+            this.btnCalc.TabIndex = 3;
+            this.btnCalc.Text = "Выполнить расчет\r\n";
+            this.btnCalc.UseVisualStyleBackColor = true;
+            this.btnCalc.Click += new System.EventHandler(this.btnCalc_Click);
+            // 
+            // btnAddPartition
+            // 
+            this.btnAddPartition.Location = new System.Drawing.Point(120, 9);
+            this.btnAddPartition.Name = "btnAddPartition";
+            this.btnAddPartition.Size = new System.Drawing.Size(108, 39);
+            this.btnAddPartition.TabIndex = 2;
+            this.btnAddPartition.Text = "Добавить перегородку";
+            this.btnAddPartition.UseVisualStyleBackColor = true;
+            this.btnAddPartition.Click += new System.EventHandler(this.btnAddPartition_Click);
+            // 
             // btnClearMap
             // 
             this.btnClearMap.Location = new System.Drawing.Point(236, 9);
@@ -159,6 +185,7 @@
             this.btnClearMap.TabIndex = 1;
             this.btnClearMap.Text = "Очистить карту-схему";
             this.btnClearMap.UseVisualStyleBackColor = true;
+            this.btnClearMap.Click += new System.EventHandler(this.btnClearMap_Click);
             // 
             // btnAddNoiseSource
             // 
@@ -216,7 +243,7 @@
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(632, 0);
+            this.splitter1.Location = new System.Drawing.Point(573, 0);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(12, 220);
             this.splitter1.TabIndex = 0;
@@ -228,16 +255,16 @@
             this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMap.Location = new System.Drawing.Point(0, 0);
             this.pnlMap.Name = "pnlMap";
-            this.pnlMap.Size = new System.Drawing.Size(644, 220);
+            this.pnlMap.Size = new System.Drawing.Size(585, 220);
             this.pnlMap.TabIndex = 1;
             // 
             // pnlInfo
             // 
             this.pnlInfo.Controls.Add(this.pgMapControl);
             this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlInfo.Location = new System.Drawing.Point(644, 0);
+            this.pnlInfo.Location = new System.Drawing.Point(585, 0);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(233, 220);
+            this.pnlInfo.Size = new System.Drawing.Size(292, 220);
             this.pnlInfo.TabIndex = 0;
             // 
             // pgMapControl
@@ -245,7 +272,7 @@
             this.pgMapControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgMapControl.Location = new System.Drawing.Point(0, 0);
             this.pgMapControl.Name = "pgMapControl";
-            this.pgMapControl.Size = new System.Drawing.Size(233, 220);
+            this.pgMapControl.Size = new System.Drawing.Size(292, 220);
             this.pgMapControl.TabIndex = 0;
             this.pgMapControl.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgMapControl_PropertyValueChanged);
             // 
@@ -260,8 +287,20 @@
             this.tpDescription.Text = "Источники шума";
             this.tpDescription.UseVisualStyleBackColor = true;
             // 
+            // lstNoiseSources
+            // 
+            this.lstNoiseSources.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstNoiseSources.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lstNoiseSources.FormattingEnabled = true;
+            this.lstNoiseSources.ItemHeight = 16;
+            this.lstNoiseSources.Location = new System.Drawing.Point(3, 3);
+            this.lstNoiseSources.Name = "lstNoiseSources";
+            this.lstNoiseSources.Size = new System.Drawing.Size(877, 220);
+            this.lstNoiseSources.TabIndex = 0;
+            // 
             // tpCalcTable
             // 
+            this.tpCalcTable.Controls.Add(this.txtCalcResults);
             this.tpCalcTable.Location = new System.Drawing.Point(4, 23);
             this.tpCalcTable.Name = "tpCalcTable";
             this.tpCalcTable.Padding = new System.Windows.Forms.Padding(3);
@@ -269,6 +308,15 @@
             this.tpCalcTable.TabIndex = 2;
             this.tpCalcTable.Text = "Расчет";
             this.tpCalcTable.UseVisualStyleBackColor = true;
+            // 
+            // txtCalcResults
+            // 
+            this.txtCalcResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCalcResults.Location = new System.Drawing.Point(3, 3);
+            this.txtCalcResults.Name = "txtCalcResults";
+            this.txtCalcResults.Size = new System.Drawing.Size(877, 220);
+            this.txtCalcResults.TabIndex = 0;
+            this.txtCalcResults.Text = "";
             // 
             // msMapControl
             // 
@@ -283,27 +331,6 @@
             this.miRemove.Size = new System.Drawing.Size(118, 22);
             this.miRemove.Text = "Удалить";
             this.miRemove.Click += new System.EventHandler(this.miRemove_Click);
-            // 
-            // btnAddPartition
-            // 
-            this.btnAddPartition.Location = new System.Drawing.Point(120, 9);
-            this.btnAddPartition.Name = "btnAddPartition";
-            this.btnAddPartition.Size = new System.Drawing.Size(108, 39);
-            this.btnAddPartition.TabIndex = 2;
-            this.btnAddPartition.Text = "Добавить перегородку";
-            this.btnAddPartition.UseVisualStyleBackColor = true;
-            this.btnAddPartition.Click += new System.EventHandler(this.btnAddPartition_Click);
-            // 
-            // lstNoiseSources
-            // 
-            this.lstNoiseSources.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstNoiseSources.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lstNoiseSources.FormattingEnabled = true;
-            this.lstNoiseSources.ItemHeight = 16;
-            this.lstNoiseSources.Location = new System.Drawing.Point(3, 3);
-            this.lstNoiseSources.Name = "lstNoiseSources";
-            this.lstNoiseSources.Size = new System.Drawing.Size(877, 220);
-            this.lstNoiseSources.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -328,6 +355,7 @@
             this.pnlWrapper.ResumeLayout(false);
             this.pnlInfo.ResumeLayout(false);
             this.tpDescription.ResumeLayout(false);
+            this.tpCalcTable.ResumeLayout(false);
             this.msMapControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -363,6 +391,8 @@
         private System.Windows.Forms.ToolStripMenuItem miRemove;
         private System.Windows.Forms.Button btnAddPartition;
         private System.Windows.Forms.ListBox lstNoiseSources;
+        private System.Windows.Forms.Button btnCalc;
+        private System.Windows.Forms.RichTextBox txtCalcResults;
     }
 }
 

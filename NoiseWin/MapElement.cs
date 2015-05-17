@@ -10,16 +10,30 @@ using NoiseWin.Annotations;
 
 namespace NoiseWin
 {
+    [Serializable]
     public enum MapElementType
     {
         NoiseSource,
         Partition
     }
 
-    internal abstract class MapElement : INotifyPropertyChanged
+    [Serializable]
+    [System.Xml.Serialization.XmlInclude(typeof(NoiseMapElement))]
+    [System.Xml.Serialization.XmlInclude(typeof(PartitionMapElement))]
+    public abstract class MapElement : INotifyPropertyChanged
     {
+        [Browsable(false)]
         public MapElementType MapElementType { get; set; }
+
+        [Browsable(false)]
+        public Point Location { get; set; }
+
+        [DisplayName("Название")]
+        [Category("1. Общие")]
         public string Name { get; set; }
+        [DisplayName("Номер")]
+        [Category("1. Общие")]
+        [ReadOnly(true)]
         public int Number { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
