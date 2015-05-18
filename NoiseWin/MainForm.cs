@@ -10,6 +10,7 @@ namespace NoiseWin
     public partial class MainForm : Form
     {
         private readonly Map _map = new Map();
+        private bool IsGetAdditionalNoise = true;
 
         private void AddMapControl(MapElement item)
         {
@@ -67,7 +68,25 @@ namespace NoiseWin
         {
             InitializeComponent();
             InitMap();
+            InitComboBox();
             wbInputTable.Navigate("about:blank");
+            wbCalc.Navigate("about:blank");
+        }
+
+        private void InitComboBox()
+        {
+            cmbTableType.Items.Clear();
+            cmbInRoom.Items.Clear();
+            cmbTableType.Items.AddRange(new object[]{"Таблица 2.1", "Таблица 2.2"});
+            cmbInRoom.Items.AddRange(new object[] { "Снаружи", "Внутри" });
+            cmbTableType.SelectedIndex = 0;
+            cmbInRoom.SelectedIndex = 0;
+            cmbRoomType.DataSource = NoiseHelper.NormalNoiseLevels21.Keys.Concat(NoiseHelper.NormalNoiseLevels23.Keys).ToList();
+            cmbNoiseCharacter.DataSource = NoiseHelper.NoiseCharacter.Keys.ToList();
+            cmbObjectPlace.DataSource = NoiseHelper.ObjectPlace.Keys.ToList();
+            cmbTimeOfTheDay.DataSource = NoiseHelper.TimeOfTheDay.Keys.ToList();
+            cmbDurationOfExposure.DataSource = NoiseHelper.DurationOfExposure.Keys.ToList();
+            cmbSummaryDurationOfExposure.DataSource = NoiseHelper.SummaryDurationOfExposure.Keys.ToList();            
         }
 
         private void InitMap()
@@ -87,10 +106,33 @@ namespace NoiseWin
         {
             ClearMap();
             InitMap();
+            InitComboBox();
             foreach (var elem in map.MapElements)
             {
                 _map.MapElements.Add(elem);
             }
+            _map.TableType = map.TableType;
+            _map.AdditionalNoiseCharacteristic = map.AdditionalNoiseCharacteristic;
+            SelectAdditionalCharacteristic();
+        }
+
+        private void SelectAdditionalCharacteristic()
+        {
+            IsGetAdditionalNoise = false;
+            cmbNoiseCharacter.SelectedIndex =
+                cmbNoiseCharacter.Items.IndexOf(_map.AdditionalNoiseCharacteristic.NoiseCharacter);
+            cmbObjectPlace.SelectedIndex = cmbObjectPlace.Items.IndexOf(_map.AdditionalNoiseCharacteristic.ObjectPlace);
+            cmbTimeOfTheDay.SelectedIndex =
+                cmbTimeOfTheDay.Items.IndexOf(_map.AdditionalNoiseCharacteristic.TimeOfTheDay);
+            cmbRoomType.SelectedIndex =
+                cmbRoomType.Items.IndexOf(_map.AdditionalNoiseCharacteristic.RoomType);
+            cmbDurationOfExposure.SelectedIndex =
+                cmbDurationOfExposure.Items.IndexOf(_map.AdditionalNoiseCharacteristic.DurationOfExposure);
+            cmbSummaryDurationOfExposure.SelectedIndex =
+                cmbSummaryDurationOfExposure.Items.IndexOf(_map.AdditionalNoiseCharacteristic.SummaryDurationOfExposure);
+            cmbInRoom.SelectedIndex = _map.AdditionalNoiseCharacteristic.InRoom ? 1 : 0;
+            cmbTableType.SelectedIndex = _map.TableType - 1;
+            IsGetAdditionalNoise = true;
         }
 
         private void RemoveMapControl(MapElement mapElement)
@@ -142,6 +184,7 @@ namespace NoiseWin
         private void btnClearMap_Click(object sender, EventArgs e)
         {
             ClearMap();
+            InitComboBox();
         }
 
         private void ClearMap()
@@ -155,7 +198,8 @@ namespace NoiseWin
 
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            txtCalcResults.Text = NoiseHelper.Calc(_map.MapElements);
+            wbCalc.DocumentText = NoiseHelper.Calc(_map);
+            tcMap.SelectTab(tpCalcTable);
         }
 
         private void miSave_Click(object sender, EventArgs e)
@@ -182,6 +226,29 @@ namespace NoiseWin
                     InitMap(map);
                 }
             }
+        }
+
+        private void cmbTableType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsGetAdditionalNoise)
+            {
+                _map.AdditionalNoiseCharacteristic = GetAdditionalNoiseCharacteristic();
+                _map.TableType = cmbTableType.SelectedIndex + 1;
+            }
+        }
+
+        private AdditionalNoiseCharacteristic GetAdditionalNoiseCharacteristic()
+        {
+            return new AdditionalNoiseCharacteristic
+            {
+                InRoom = cmbInRoom.SelectedIndex != 0,
+                RoomType = cmbRoomType.SelectedIndex > -1 ? cmbRoomType.SelectedItem.ToString() : string.Empty,
+                DurationOfExposure = cmbDurationOfExposure.SelectedIndex > -1 ? cmbDurationOfExposure.SelectedItem.ToString() : string.Empty,
+                NoiseCharacter = cmbNoiseCharacter.SelectedIndex > -1 ? cmbNoiseCharacter.SelectedItem.ToString() : string.Empty,
+                ObjectPlace = cmbObjectPlace.SelectedIndex > -1 ? cmbObjectPlace.SelectedItem.ToString() : string.Empty,
+                SummaryDurationOfExposure = cmbSummaryDurationOfExposure.SelectedIndex > -1 ? cmbSummaryDurationOfExposure.SelectedItem.ToString() : string.Empty,
+                TimeOfTheDay = cmbTimeOfTheDay.SelectedIndex > -1 ? cmbTimeOfTheDay.SelectedItem.ToString() : string.Empty
+            };
         }
     }
 }

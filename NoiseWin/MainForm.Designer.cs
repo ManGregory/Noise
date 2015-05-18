@@ -55,10 +55,28 @@
             this.tpDescription = new System.Windows.Forms.TabPage();
             this.lstNoiseSources = new System.Windows.Forms.ListBox();
             this.tpCalcTable = new System.Windows.Forms.TabPage();
-            this.txtCalcResults = new System.Windows.Forms.RichTextBox();
             this.msMapControl = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.wbInputTable = new System.Windows.Forms.WebBrowser();
+            this.grpRoomType = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbTableType = new System.Windows.Forms.ComboBox();
+            this.cmbRoomType = new System.Windows.Forms.ComboBox();
+            this.cmbInRoom = new System.Windows.Forms.ComboBox();
+            this.cmbNoiseCharacter = new System.Windows.Forms.ComboBox();
+            this.cmbObjectPlace = new System.Windows.Forms.ComboBox();
+            this.cmbTimeOfTheDay = new System.Windows.Forms.ComboBox();
+            this.cmbDurationOfExposure = new System.Windows.Forms.ComboBox();
+            this.cmbSummaryDurationOfExposure = new System.Windows.Forms.ComboBox();
+            this.wbCalc = new System.Windows.Forms.WebBrowser();
             this.msMain.SuspendLayout();
             this.pnlControls.SuspendLayout();
             this.pnlData.SuspendLayout();
@@ -69,6 +87,8 @@
             this.tpDescription.SuspendLayout();
             this.tpCalcTable.SuspendLayout();
             this.msMapControl.SuspendLayout();
+            this.grpRoomType.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // msMain
@@ -79,7 +99,7 @@
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
             this.msMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.msMain.Size = new System.Drawing.Size(891, 24);
+            this.msMain.Size = new System.Drawing.Size(914, 24);
             this.msMain.TabIndex = 0;
             this.msMain.Text = "menuStrip1";
             // 
@@ -148,6 +168,7 @@
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.panel1);
             this.pnlControls.Controls.Add(this.btnCalc);
             this.pnlControls.Controls.Add(this.btnAddPartition);
             this.pnlControls.Controls.Add(this.btnClearMap);
@@ -155,7 +176,7 @@
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlControls.Location = new System.Drawing.Point(0, 24);
             this.pnlControls.Name = "pnlControls";
-            this.pnlControls.Size = new System.Drawing.Size(891, 58);
+            this.pnlControls.Size = new System.Drawing.Size(914, 305);
             this.pnlControls.TabIndex = 1;
             // 
             // btnCalc
@@ -202,9 +223,9 @@
             // 
             this.pnlData.Controls.Add(this.tcMap);
             this.pnlData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlData.Location = new System.Drawing.Point(0, 82);
+            this.pnlData.Location = new System.Drawing.Point(0, 329);
             this.pnlData.Name = "pnlData";
-            this.pnlData.Size = new System.Drawing.Size(891, 253);
+            this.pnlData.Size = new System.Drawing.Size(914, 176);
             this.pnlData.TabIndex = 2;
             // 
             // tcMap
@@ -216,7 +237,7 @@
             this.tcMap.Location = new System.Drawing.Point(0, 0);
             this.tcMap.Name = "tcMap";
             this.tcMap.SelectedIndex = 0;
-            this.tcMap.Size = new System.Drawing.Size(891, 253);
+            this.tcMap.Size = new System.Drawing.Size(914, 176);
             this.tcMap.TabIndex = 0;
             // 
             // tpMap
@@ -279,12 +300,12 @@
             // 
             // tpDescription
             // 
-            this.tpDescription.Controls.Add(this.wbInputTable);
             this.tpDescription.Controls.Add(this.lstNoiseSources);
+            this.tpDescription.Controls.Add(this.wbInputTable);
             this.tpDescription.Location = new System.Drawing.Point(4, 23);
             this.tpDescription.Name = "tpDescription";
             this.tpDescription.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDescription.Size = new System.Drawing.Size(883, 226);
+            this.tpDescription.Size = new System.Drawing.Size(906, 149);
             this.tpDescription.TabIndex = 1;
             this.tpDescription.Text = "Источники шума";
             this.tpDescription.UseVisualStyleBackColor = true;
@@ -297,29 +318,20 @@
             this.lstNoiseSources.ItemHeight = 16;
             this.lstNoiseSources.Location = new System.Drawing.Point(3, 3);
             this.lstNoiseSources.Name = "lstNoiseSources";
-            this.lstNoiseSources.Size = new System.Drawing.Size(877, 220);
+            this.lstNoiseSources.Size = new System.Drawing.Size(900, 143);
             this.lstNoiseSources.TabIndex = 0;
             this.lstNoiseSources.Visible = false;
             // 
             // tpCalcTable
             // 
-            this.tpCalcTable.Controls.Add(this.txtCalcResults);
+            this.tpCalcTable.Controls.Add(this.wbCalc);
             this.tpCalcTable.Location = new System.Drawing.Point(4, 23);
             this.tpCalcTable.Name = "tpCalcTable";
             this.tpCalcTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCalcTable.Size = new System.Drawing.Size(883, 226);
+            this.tpCalcTable.Size = new System.Drawing.Size(906, 149);
             this.tpCalcTable.TabIndex = 2;
             this.tpCalcTable.Text = "Расчет";
             this.tpCalcTable.UseVisualStyleBackColor = true;
-            // 
-            // txtCalcResults
-            // 
-            this.txtCalcResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCalcResults.Location = new System.Drawing.Point(3, 3);
-            this.txtCalcResults.Name = "txtCalcResults";
-            this.txtCalcResults.Size = new System.Drawing.Size(877, 220);
-            this.txtCalcResults.TabIndex = 0;
-            this.txtCalcResults.Text = "";
             // 
             // msMapControl
             // 
@@ -341,14 +353,202 @@
             this.wbInputTable.Location = new System.Drawing.Point(3, 3);
             this.wbInputTable.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbInputTable.Name = "wbInputTable";
-            this.wbInputTable.Size = new System.Drawing.Size(877, 220);
+            this.wbInputTable.Size = new System.Drawing.Size(900, 143);
             this.wbInputTable.TabIndex = 1;
+            // 
+            // grpRoomType
+            // 
+            this.grpRoomType.Controls.Add(this.cmbSummaryDurationOfExposure);
+            this.grpRoomType.Controls.Add(this.cmbDurationOfExposure);
+            this.grpRoomType.Controls.Add(this.cmbTimeOfTheDay);
+            this.grpRoomType.Controls.Add(this.cmbObjectPlace);
+            this.grpRoomType.Controls.Add(this.cmbNoiseCharacter);
+            this.grpRoomType.Controls.Add(this.cmbInRoom);
+            this.grpRoomType.Controls.Add(this.cmbRoomType);
+            this.grpRoomType.Controls.Add(this.cmbTableType);
+            this.grpRoomType.Controls.Add(this.label8);
+            this.grpRoomType.Controls.Add(this.label7);
+            this.grpRoomType.Controls.Add(this.label6);
+            this.grpRoomType.Controls.Add(this.label5);
+            this.grpRoomType.Controls.Add(this.label4);
+            this.grpRoomType.Controls.Add(this.label3);
+            this.grpRoomType.Controls.Add(this.label2);
+            this.grpRoomType.Controls.Add(this.label1);
+            this.grpRoomType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpRoomType.Location = new System.Drawing.Point(0, 0);
+            this.grpRoomType.Name = "grpRoomType";
+            this.grpRoomType.Size = new System.Drawing.Size(914, 251);
+            this.grpRoomType.TabIndex = 4;
+            this.grpRoomType.TabStop = false;
+            this.grpRoomType.Text = "Характеристики помещения или территории";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.grpRoomType);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 54);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(914, 251);
+            this.panel1.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 48);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(234, 14);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Название помещения или территории: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 159);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 14);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Время суток:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 131);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(162, 14);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Местоположение объекта:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(14, 103);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 14);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Характер шума: ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(217, 14);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "РТ внутри или снаружи помещения:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 187);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(282, 14);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Длительность воздействия прерывистого шума:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(14, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(136, 14);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Нормативная таблица:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(14, 215);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(284, 14);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Суммарная длительность воздействия за смену:";
+            // 
+            // cmbTableType
+            // 
+            this.cmbTableType.FormattingEnabled = true;
+            this.cmbTableType.Location = new System.Drawing.Point(304, 18);
+            this.cmbTableType.Name = "cmbTableType";
+            this.cmbTableType.Size = new System.Drawing.Size(598, 22);
+            this.cmbTableType.TabIndex = 8;
+            this.cmbTableType.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbRoomType
+            // 
+            this.cmbRoomType.FormattingEnabled = true;
+            this.cmbRoomType.Location = new System.Drawing.Point(304, 45);
+            this.cmbRoomType.Name = "cmbRoomType";
+            this.cmbRoomType.Size = new System.Drawing.Size(598, 22);
+            this.cmbRoomType.TabIndex = 10;
+            this.cmbRoomType.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbInRoom
+            // 
+            this.cmbInRoom.FormattingEnabled = true;
+            this.cmbInRoom.Location = new System.Drawing.Point(304, 72);
+            this.cmbInRoom.Name = "cmbInRoom";
+            this.cmbInRoom.Size = new System.Drawing.Size(598, 22);
+            this.cmbInRoom.TabIndex = 11;
+            this.cmbInRoom.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbNoiseCharacter
+            // 
+            this.cmbNoiseCharacter.FormattingEnabled = true;
+            this.cmbNoiseCharacter.Location = new System.Drawing.Point(304, 100);
+            this.cmbNoiseCharacter.Name = "cmbNoiseCharacter";
+            this.cmbNoiseCharacter.Size = new System.Drawing.Size(598, 22);
+            this.cmbNoiseCharacter.TabIndex = 12;
+            this.cmbNoiseCharacter.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbObjectPlace
+            // 
+            this.cmbObjectPlace.FormattingEnabled = true;
+            this.cmbObjectPlace.Location = new System.Drawing.Point(304, 128);
+            this.cmbObjectPlace.Name = "cmbObjectPlace";
+            this.cmbObjectPlace.Size = new System.Drawing.Size(598, 22);
+            this.cmbObjectPlace.TabIndex = 13;
+            this.cmbObjectPlace.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbTimeOfTheDay
+            // 
+            this.cmbTimeOfTheDay.FormattingEnabled = true;
+            this.cmbTimeOfTheDay.Location = new System.Drawing.Point(304, 156);
+            this.cmbTimeOfTheDay.Name = "cmbTimeOfTheDay";
+            this.cmbTimeOfTheDay.Size = new System.Drawing.Size(598, 22);
+            this.cmbTimeOfTheDay.TabIndex = 14;
+            this.cmbTimeOfTheDay.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbDurationOfExposure
+            // 
+            this.cmbDurationOfExposure.FormattingEnabled = true;
+            this.cmbDurationOfExposure.Location = new System.Drawing.Point(304, 184);
+            this.cmbDurationOfExposure.Name = "cmbDurationOfExposure";
+            this.cmbDurationOfExposure.Size = new System.Drawing.Size(598, 22);
+            this.cmbDurationOfExposure.TabIndex = 15;
+            this.cmbDurationOfExposure.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // cmbSummaryDurationOfExposure
+            // 
+            this.cmbSummaryDurationOfExposure.FormattingEnabled = true;
+            this.cmbSummaryDurationOfExposure.Location = new System.Drawing.Point(304, 212);
+            this.cmbSummaryDurationOfExposure.Name = "cmbSummaryDurationOfExposure";
+            this.cmbSummaryDurationOfExposure.Size = new System.Drawing.Size(598, 22);
+            this.cmbSummaryDurationOfExposure.TabIndex = 16;
+            this.cmbSummaryDurationOfExposure.SelectedIndexChanged += new System.EventHandler(this.cmbTableType_SelectedIndexChanged);
+            // 
+            // wbCalc
+            // 
+            this.wbCalc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbCalc.Location = new System.Drawing.Point(3, 3);
+            this.wbCalc.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbCalc.Name = "wbCalc";
+            this.wbCalc.Size = new System.Drawing.Size(900, 143);
+            this.wbCalc.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 335);
+            this.ClientSize = new System.Drawing.Size(914, 505);
             this.Controls.Add(this.pnlData);
             this.Controls.Add(this.pnlControls);
             this.Controls.Add(this.msMain);
@@ -369,6 +569,9 @@
             this.tpDescription.ResumeLayout(false);
             this.tpCalcTable.ResumeLayout(false);
             this.msMapControl.ResumeLayout(false);
+            this.grpRoomType.ResumeLayout(false);
+            this.grpRoomType.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -404,8 +607,26 @@
         private System.Windows.Forms.Button btnAddPartition;
         private System.Windows.Forms.ListBox lstNoiseSources;
         private System.Windows.Forms.Button btnCalc;
-        private System.Windows.Forms.RichTextBox txtCalcResults;
         private System.Windows.Forms.WebBrowser wbInputTable;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox grpRoomType;
+        private System.Windows.Forms.ComboBox cmbNoiseCharacter;
+        private System.Windows.Forms.ComboBox cmbInRoom;
+        private System.Windows.Forms.ComboBox cmbRoomType;
+        private System.Windows.Forms.ComboBox cmbTableType;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbSummaryDurationOfExposure;
+        private System.Windows.Forms.ComboBox cmbDurationOfExposure;
+        private System.Windows.Forms.ComboBox cmbTimeOfTheDay;
+        private System.Windows.Forms.ComboBox cmbObjectPlace;
+        private System.Windows.Forms.WebBrowser wbCalc;
     }
 }
 

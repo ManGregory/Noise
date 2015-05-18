@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,21 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace NoiseWin
-{
+{  
     [Serializable]
     public class Map
     {
+        private int _tableType;
+
+        public int TableType { get { return _tableType; } set { _tableType = value; } }
+        public AdditionalNoiseCharacteristic AdditionalNoiseCharacteristic { get; set; }
         public BindingList<MapElement> MapElements { get; set; }
+
+        public Map()
+        {
+            AdditionalNoiseCharacteristic = new AdditionalNoiseCharacteristic();
+            TableType = 1;
+        }
 
         public static void SaveToFile(string filePath, Map map)
         {

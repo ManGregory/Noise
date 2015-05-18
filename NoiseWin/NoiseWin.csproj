@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalNoiseCharacteristic.cs" />
     <Compile Include="Helper\ControlMover.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -53,6 +54,7 @@
     </Compile>
     <Compile Include="Map.cs" />
     <Compile Include="MapElement.cs" />
+    <Compile Include="NoiseHelper.cs" />
     <Compile Include="NoiseMapElement.cs" />
     <Compile Include="PartitionMapElement.cs" />
     <Compile Include="Program.cs" />
