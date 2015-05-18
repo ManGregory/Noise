@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace NoiseWin
 {
+    /// <summary>
+    /// Источник шума
+    /// </summary>
     [Serializable]
     public class NoiseMapElement : MapElement
     {
@@ -25,6 +29,11 @@ namespace NoiseWin
         [DisplayName("Расстояние до расчетной точки")]
         [Description("Расстояние до расчетной точки, м")]
         public double Distance { get; set; }
+
+        [Category("2. Характеристики источника шума")]
+        [DisplayName("Защитный экран")]        
+        [Description("Защитный экран")]
+        public bool HasProtection { get; set; }
 
         public NoiseMapElement()
         {

@@ -36,10 +36,6 @@ namespace NoiseWin.Helper
 			{
 				dragging = true;
 				dragStart = new Point(e.X, e.Y);
-			    if (mapElement != null)
-			    {
-			        mapElement.Location = dragStart;
-			    }
 				control.Capture = true;
 			};
 			control.MouseUp += delegate

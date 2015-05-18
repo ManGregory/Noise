@@ -10,13 +10,25 @@ using System.Xml.Serialization;
 
 namespace NoiseWin
 {  
+    /// <summary>
+    /// Карта 
+    /// </summary>
     [Serializable]
     public class Map
     {
         private int _tableType;
 
+        /// <summary>
+        /// Тип таблицы (2.1 или 2.3)
+        /// </summary>
         public int TableType { get { return _tableType; } set { _tableType = value; } }
+        /// <summary>
+        /// Дополнительные характеристики
+        /// </summary>
         public AdditionalNoiseCharacteristic AdditionalNoiseCharacteristic { get; set; }
+        /// <summary>
+        /// Список элементов карты (источников шума и перегородок)
+        /// </summary>
         public BindingList<MapElement> MapElements { get; set; }
 
         public Map()
@@ -25,6 +37,11 @@ namespace NoiseWin
             TableType = 1;
         }
 
+        /// <summary>
+        ///  Сохранение информации в файл
+        /// </summary>
+        /// <param name="filePath">путь к файлу</param>
+        /// <param name="map">карта</param>
         public static void SaveToFile(string filePath, Map map)
         {
             using (var outFile = File.Create(filePath))
@@ -39,6 +56,11 @@ namespace NoiseWin
             }
         }
 
+        /// <summary>
+        /// Загрузка карты из файла
+        /// </summary>
+        /// <param name="filePath">путь к файлу</param>
+        /// <returns>Карта-схема</returns>
         public static Map LoadFromFile(string filePath)
         {
             var deserializer = new XmlSerializer(typeof(Map));

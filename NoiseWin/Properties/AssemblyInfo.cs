@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NoiseWin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Оценка производственного шума")]
+[assembly: AssemblyDescription("Программа предназначена для оценки производственного шума и способов его уменьшения")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NoiseWin")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("Оценка производственного шума")]
+[assembly: AssemblyCopyright("©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

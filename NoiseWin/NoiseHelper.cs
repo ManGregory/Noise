@@ -103,12 +103,12 @@ namespace NoiseWin
         };
 
         /// <summary>
-        /// 
+        /// ѕолучение нормативного уровн€ шума
         /// </summary>
-        /// <param name="tableType"></param>
-        /// <param name="level"></param>
-        /// <param name="roomType"></param>
-        /// <returns></returns>
+        /// <param name="tableType">“ип таблицы (2.1 или 2.3)</param>
+        /// <param name="level">”ровень</param>
+        /// <param name="roomType">“ип помещени€ или территории</param>
+        /// <returns>Ќормативный уровень шума</returns>
         public static double GetNormalNoiseLevel(int tableType, int level, string roomType)
         {
             var baseLevel = 0.0;
@@ -124,14 +124,15 @@ namespace NoiseWin
         }
 
         /// <summary>
-        /// 
+        /// ѕоправки к нормативному уровню шума
         /// </summary>
-        /// <param name="addNoise"></param>
-        /// <param name="tableType"></param>
+        /// <param name="addNoise">ƒополнительные характеристики помещени€ или территории</param>
+        /// <param name="tableType">“ип таблицы (2.1 или 2.3)</param>
         /// <returns></returns>
         private static double GetDelta(AdditionalNoiseCharacteristic addNoise, int tableType)
         {
             return
+                // снаружи или внутри
                 (addNoise.InRoom ? -5 : 10) +
                 (tableType == 1
                     ? (string.IsNullOrEmpty(addNoise.NoiseCharacter) ? 0 : NoiseCharacter[addNoise.NoiseCharacter]) +
@@ -158,6 +159,11 @@ namespace NoiseWin
             return GetNormalNoiseLevel(tableType, level, addNoise.RoomType) + GetDelta(addNoise, tableType);
         }
 
+        /// <summary>
+        /// формула 2.3
+        /// </summary>
+        /// <param name="powerLevels"></param>
+        /// <returns></returns>
         public static double GetAggregatePower(IEnumerable<double> powerLevels)
         {
             return 10 * Math.Log10(powerLevels.Sum(p => Math.Pow(10, 0.1) * p));
@@ -170,49 +176,71 @@ namespace NoiseWin
             const int limitDistance = 50;
             return distance < limitDistance ? 0 : values[level];
         }
-
-        // formula 2.3 
-        public static double GetPowerInPoint(NoiseMapElement mapElement, int level)
+         
+        /// <summary>
+        /// ‘ормула 2.3
+        /// </summary>
+        /// <param name="map"> арта-схема, необходима дл€ поска св€занных перегородок</param>
+        /// <param name="mapElement">Ёлемент карты</param>
+        /// <param name="level">”ровень</param>
+        /// <returns>«начение звукового давлени€ в расчетной точке</returns>
+        public static double GetPowerInPoint(Map map, NoiseMapElement mapElement, int level)
         {
-            return
-                Math.Round(
-                    mapElement.PowerLevels[level] -
-                    20*Math.Log10(mapElement.Distance) +
-                    10*Math.Log10(2/(4*Math.PI)) -
-                    GetAtmosphericAttenuation(level, mapElement.Distance), 0);
+            var basePower = Math.Round(
+                mapElement.PowerLevels[level] -
+                20*Math.Log10(mapElement.Distance) +
+                10*Math.Log10(2/(4*Math.PI)) -
+                GetAtmosphericAttenuation(level, mapElement.Distance), 0);
+            // все перегородки, где есть указанный источник шума
+            var partitionPower =
+                map.MapElements.Where(
+                    m =>
+                        m.MapElementType == MapElementType.Partition &&
+                        m.LinkedMapElements.Any(m1 => m1.Number == mapElement.Number))
+                    .Cast<PartitionMapElement>()
+                    .Sum(m => m.GetPartitionFullIsolationPower);
+            // базовое значение + изолирующа€ способность перегордок + защитный экран
+            return basePower + partitionPower + (mapElement.HasProtection ? -5 : 0);
         }
 
         /// <summary>
-        /// 
+        /// ‘ормула 2.23
         /// </summary>
         /// <param name="count"></param>
         /// <param name="power"></param>
         /// <param name="allowablePower"></param>
-        /// <returns></returns>
+        /// <returns>“ребуемое снижение уровн€ шума</returns>
         public static double GetRequired(int count, double power, double allowablePower)
         {
             return Math.Round(power - allowablePower + 10*Math.Log10(count), 0);
         }
 
         /// <summary>
-        /// 
+        /// ћаксимальна€ разница из п. 2.5.4
         /// </summary>
         public const int MaxDifference = 8;
 
+        /// <summary>
+        /// ‘ормирование расчетной таблицы
+        /// </summary>
+        /// <param name="map">карта-схема</param>
+        /// <returns></returns>
         public static string Calc(Map map)
         {
             var sb = new StringBuilder();
+            // добавл€ем заголовк и шапкутаблицы
             sb.AppendLine("<html><body><table border='1'>");
             sb.AppendLine(
                 "<tr><td rowspan='2' width='50'>є п.п.</td><td rowspan='2' width='100'>¬еличина, <i>дЅ</i></td><td colspan='8'>”ровни звуковой мощности (дЅ) при среднегеометрической частоте, <i>√ц</i></td></tr><tr><td>65</td><td>125</td><td>250</td><td>500</td><td>1000</td><td>2000</td><td>4000</td><td>8000</td></tr>");
             var number = 1;
+            // расчитываем уровни звуквого давлени€ дл€ всех источников шума и добавл€ем их в таблицу
             var powerInAllPoints = new List<List<double>>();
-            foreach (var elem in map.MapElements.Where(m => m.MapElementType == MapElementType.NoiseSource).Cast<NoiseMapElement>())
+            foreach (var elem in map.MapElements.Where(m => m.MapElementType == MapElementType.NoiseSource).Cast<NoiseMapElement>().OrderBy(m => m.Number))
             {
                 var powerInPoints =
-                    Enumerable.Range(0, 8).Select(i => GetPowerInPoint(elem, i)).ToList();                        
+                    Enumerable.Range(0, 8).Select(i => GetPowerInPoint(map, elem, i)).ToList();                        
                 sb.AppendFormat(
-                    "<tr><td>{0}</td><td><i>{1}<sub>{0}</sub></i></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
+                    "<tr><td>{0}</td><td><i>{1}<sub>{10}</sub></i></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
                     number, "L",
                     powerInPoints[0],
                     powerInPoints[1],
@@ -221,19 +249,24 @@ namespace NoiseWin
                     powerInPoints[4],
                     powerInPoints[5],
                     powerInPoints[6],
-                    powerInPoints[7]);
+                    powerInPoints[7],
+                    elem.Number);
                 powerInAllPoints.Add(powerInPoints);
                 number++;
             }
 
+            // расчитываем нормативные уровни шума
             var normalNoiseLevels =
                 Enumerable.Range(0, 8)
                     .Select(i => GetNormalNoiseLevel(map.TableType, i, map.AdditionalNoiseCharacteristic.RoomType)).ToList();
+            // поправки к нормативным уровн€м шума
             var deltas =
                 Enumerable.Range(0, 8).Select(i => GetDelta(map.AdditionalNoiseCharacteristic, map.TableType)).ToList();
+            // расчитываем допустимые уровни шума
             var allowableNoiseLevels =
                 Enumerable.Range(0, 8)
                     .Select(i => GetAllowableNoiseLevel(map.TableType, i, map.AdditionalNoiseCharacteristic)).ToList();
+            // добавл€ем в таблицу нормативные уровни шума
             sb.AppendFormat(
                 "<tr><td>{0}</td><td><i>{1}<sub>н</sub></i></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
                 number, "L", 
@@ -246,6 +279,7 @@ namespace NoiseWin
                 normalNoiseLevels[6], 
                 normalNoiseLevels[7]);
             number++;
+            // добавл€ем в таблицу поправки уровн€ шума
             sb.AppendFormat(
                 "<tr><td>{0}</td><td><i>{1}<sub>п</sub></i></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
                 number, "&#916",
@@ -258,6 +292,7 @@ namespace NoiseWin
                 deltas[6],
                 deltas[7]);
             number++;
+            // добавл€ем в таблицу допустимые уровни шума
             sb.AppendFormat(
                 "<tr><td>{0}</td><td><i>{1}<sub>доп</sub></i></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
                 number, "L",
@@ -270,9 +305,11 @@ namespace NoiseWin
                 allowableNoiseLevels[6],
                 allowableNoiseLevels[7]);
             number++;
+            // расчитываем количество источников шума которое удовлетвор€ют условию из п. 2.5.4
             var countHasDiff =
                 powerInAllPoints.Count(p => p.Where((p1, i) => allowableNoiseLevels[i] - p1 <= MaxDifference).Any());
 
+            // рассчитываем отклонени€ от допустимого уровн€ шума
             var hasDiff = new List<dynamic>();
             for (int index = 0; index < powerInAllPoints.Count; index++)
             {
@@ -282,6 +319,7 @@ namespace NoiseWin
                     hasDiff.Add(new {Number = index + 1, Powers = powers.Select((p1, i) => GetRequired(countHasDiff, p1, allowableNoiseLevels[i])).ToList()});
                 }
             }
+            // добавл€ем отклонени€ от допустимого уровн€ шума в таблицу
             foreach (var elem in hasDiff)
             {
                 sb.AppendFormat(
@@ -301,6 +339,11 @@ namespace NoiseWin
             return sb.ToString();
         }
 
+        /// <summary>
+        /// ‘ормирование таблицы "»сточники шума"
+        /// </summary>
+        /// <param name="mapElements">—писок источников шума</param>
+        /// <returns></returns>
         public static string CreateInputDataTable(IEnumerable<MapElement> mapElements)
         {
             var sb = new StringBuilder();
