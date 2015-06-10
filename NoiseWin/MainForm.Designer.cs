@@ -79,6 +79,12 @@
             this.miLinkElements = new System.Windows.Forms.ToolStripMenuItem();
             this.miRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtRoomWidth = new System.Windows.Forms.TextBox();
+            this.txtRoomHeight = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btnAddPoint = new System.Windows.Forms.Button();
             this.msMain.SuspendLayout();
             this.pnlControls.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -119,26 +125,26 @@
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(132, 22);
+            this.miOpen.Size = new System.Drawing.Size(152, 22);
             this.miOpen.Text = "Открыть";
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // miSave
             // 
             this.miSave.Name = "miSave";
-            this.miSave.Size = new System.Drawing.Size(132, 22);
+            this.miSave.Size = new System.Drawing.Size(152, 22);
             this.miSave.Text = "Сохранить";
             this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(129, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // miClose
             // 
             this.miClose.Name = "miClose";
-            this.miClose.Size = new System.Drawing.Size(132, 22);
+            this.miClose.Size = new System.Drawing.Size(152, 22);
             this.miClose.Text = "Выход";
             this.miClose.Click += new System.EventHandler(this.miClose_Click);
             // 
@@ -172,6 +178,7 @@
             // 
             // pnlControls
             // 
+            this.pnlControls.Controls.Add(this.btnAddPoint);
             this.pnlControls.Controls.Add(this.panel1);
             this.pnlControls.Controls.Add(this.btnCalc);
             this.pnlControls.Controls.Add(this.btnAddPartition);
@@ -180,7 +187,7 @@
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlControls.Location = new System.Drawing.Point(0, 24);
             this.pnlControls.Name = "pnlControls";
-            this.pnlControls.Size = new System.Drawing.Size(914, 305);
+            this.pnlControls.Size = new System.Drawing.Size(914, 322);
             this.pnlControls.TabIndex = 1;
             // 
             // panel1
@@ -189,11 +196,16 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 54);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(914, 251);
+            this.panel1.Size = new System.Drawing.Size(914, 268);
             this.panel1.TabIndex = 5;
             // 
             // grpRoomType
             // 
+            this.grpRoomType.Controls.Add(this.label11);
+            this.grpRoomType.Controls.Add(this.label10);
+            this.grpRoomType.Controls.Add(this.txtRoomHeight);
+            this.grpRoomType.Controls.Add(this.txtRoomWidth);
+            this.grpRoomType.Controls.Add(this.label9);
             this.grpRoomType.Controls.Add(this.cmbSummaryDurationOfExposure);
             this.grpRoomType.Controls.Add(this.cmbDurationOfExposure);
             this.grpRoomType.Controls.Add(this.cmbTimeOfTheDay);
@@ -213,7 +225,7 @@
             this.grpRoomType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpRoomType.Location = new System.Drawing.Point(0, 0);
             this.grpRoomType.Name = "grpRoomType";
-            this.grpRoomType.Size = new System.Drawing.Size(914, 251);
+            this.grpRoomType.Size = new System.Drawing.Size(914, 268);
             this.grpRoomType.TabIndex = 4;
             this.grpRoomType.TabStop = false;
             this.grpRoomType.Text = "Характеристики помещения или территории";
@@ -221,7 +233,7 @@
             // cmbSummaryDurationOfExposure
             // 
             this.cmbSummaryDurationOfExposure.FormattingEnabled = true;
-            this.cmbSummaryDurationOfExposure.Location = new System.Drawing.Point(304, 212);
+            this.cmbSummaryDurationOfExposure.Location = new System.Drawing.Point(304, 238);
             this.cmbSummaryDurationOfExposure.Name = "cmbSummaryDurationOfExposure";
             this.cmbSummaryDurationOfExposure.Size = new System.Drawing.Size(598, 22);
             this.cmbSummaryDurationOfExposure.TabIndex = 16;
@@ -230,7 +242,7 @@
             // cmbDurationOfExposure
             // 
             this.cmbDurationOfExposure.FormattingEnabled = true;
-            this.cmbDurationOfExposure.Location = new System.Drawing.Point(304, 184);
+            this.cmbDurationOfExposure.Location = new System.Drawing.Point(304, 210);
             this.cmbDurationOfExposure.Name = "cmbDurationOfExposure";
             this.cmbDurationOfExposure.Size = new System.Drawing.Size(598, 22);
             this.cmbDurationOfExposure.TabIndex = 15;
@@ -239,7 +251,7 @@
             // cmbTimeOfTheDay
             // 
             this.cmbTimeOfTheDay.FormattingEnabled = true;
-            this.cmbTimeOfTheDay.Location = new System.Drawing.Point(304, 156);
+            this.cmbTimeOfTheDay.Location = new System.Drawing.Point(304, 182);
             this.cmbTimeOfTheDay.Name = "cmbTimeOfTheDay";
             this.cmbTimeOfTheDay.Size = new System.Drawing.Size(598, 22);
             this.cmbTimeOfTheDay.TabIndex = 14;
@@ -248,7 +260,7 @@
             // cmbObjectPlace
             // 
             this.cmbObjectPlace.FormattingEnabled = true;
-            this.cmbObjectPlace.Location = new System.Drawing.Point(304, 128);
+            this.cmbObjectPlace.Location = new System.Drawing.Point(304, 154);
             this.cmbObjectPlace.Name = "cmbObjectPlace";
             this.cmbObjectPlace.Size = new System.Drawing.Size(598, 22);
             this.cmbObjectPlace.TabIndex = 13;
@@ -257,7 +269,7 @@
             // cmbNoiseCharacter
             // 
             this.cmbNoiseCharacter.FormattingEnabled = true;
-            this.cmbNoiseCharacter.Location = new System.Drawing.Point(304, 100);
+            this.cmbNoiseCharacter.Location = new System.Drawing.Point(304, 126);
             this.cmbNoiseCharacter.Name = "cmbNoiseCharacter";
             this.cmbNoiseCharacter.Size = new System.Drawing.Size(598, 22);
             this.cmbNoiseCharacter.TabIndex = 12;
@@ -266,7 +278,7 @@
             // cmbInRoom
             // 
             this.cmbInRoom.FormattingEnabled = true;
-            this.cmbInRoom.Location = new System.Drawing.Point(304, 72);
+            this.cmbInRoom.Location = new System.Drawing.Point(304, 98);
             this.cmbInRoom.Name = "cmbInRoom";
             this.cmbInRoom.Size = new System.Drawing.Size(598, 22);
             this.cmbInRoom.TabIndex = 11;
@@ -275,7 +287,7 @@
             // cmbRoomType
             // 
             this.cmbRoomType.FormattingEnabled = true;
-            this.cmbRoomType.Location = new System.Drawing.Point(304, 45);
+            this.cmbRoomType.Location = new System.Drawing.Point(304, 71);
             this.cmbRoomType.Name = "cmbRoomType";
             this.cmbRoomType.Size = new System.Drawing.Size(598, 22);
             this.cmbRoomType.TabIndex = 10;
@@ -284,7 +296,7 @@
             // cmbTableType
             // 
             this.cmbTableType.FormattingEnabled = true;
-            this.cmbTableType.Location = new System.Drawing.Point(304, 18);
+            this.cmbTableType.Location = new System.Drawing.Point(304, 44);
             this.cmbTableType.Name = "cmbTableType";
             this.cmbTableType.Size = new System.Drawing.Size(598, 22);
             this.cmbTableType.TabIndex = 8;
@@ -293,7 +305,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 215);
+            this.label8.Location = new System.Drawing.Point(14, 241);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(284, 14);
             this.label8.TabIndex = 7;
@@ -302,7 +314,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 21);
+            this.label7.Location = new System.Drawing.Point(14, 47);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(136, 14);
             this.label7.TabIndex = 6;
@@ -311,7 +323,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 187);
+            this.label6.Location = new System.Drawing.Point(14, 213);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(282, 14);
             this.label6.TabIndex = 5;
@@ -320,7 +332,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 75);
+            this.label5.Location = new System.Drawing.Point(14, 101);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(217, 14);
             this.label5.TabIndex = 4;
@@ -329,7 +341,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 103);
+            this.label4.Location = new System.Drawing.Point(14, 129);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(99, 14);
             this.label4.TabIndex = 3;
@@ -338,7 +350,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 131);
+            this.label3.Location = new System.Drawing.Point(14, 157);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(162, 14);
             this.label3.TabIndex = 2;
@@ -347,7 +359,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 159);
+            this.label2.Location = new System.Drawing.Point(14, 185);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 14);
             this.label2.TabIndex = 1;
@@ -356,7 +368,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 48);
+            this.label1.Location = new System.Drawing.Point(14, 74);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(234, 14);
             this.label1.TabIndex = 0;
@@ -364,7 +376,7 @@
             // 
             // btnCalc
             // 
-            this.btnCalc.Location = new System.Drawing.Point(353, 9);
+            this.btnCalc.Location = new System.Drawing.Point(481, 9);
             this.btnCalc.Name = "btnCalc";
             this.btnCalc.Size = new System.Drawing.Size(111, 39);
             this.btnCalc.TabIndex = 3;
@@ -384,7 +396,7 @@
             // 
             // btnClearMap
             // 
-            this.btnClearMap.Location = new System.Drawing.Point(236, 9);
+            this.btnClearMap.Location = new System.Drawing.Point(364, 9);
             this.btnClearMap.Name = "btnClearMap";
             this.btnClearMap.Size = new System.Drawing.Size(111, 39);
             this.btnClearMap.TabIndex = 1;
@@ -406,9 +418,9 @@
             // 
             this.pnlData.Controls.Add(this.tcMap);
             this.pnlData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlData.Location = new System.Drawing.Point(0, 329);
+            this.pnlData.Location = new System.Drawing.Point(0, 346);
             this.pnlData.Name = "pnlData";
-            this.pnlData.Size = new System.Drawing.Size(914, 176);
+            this.pnlData.Size = new System.Drawing.Size(914, 184);
             this.pnlData.TabIndex = 2;
             // 
             // tcMap
@@ -420,7 +432,7 @@
             this.tcMap.Location = new System.Drawing.Point(0, 0);
             this.tcMap.Name = "tcMap";
             this.tcMap.SelectedIndex = 0;
-            this.tcMap.Size = new System.Drawing.Size(914, 176);
+            this.tcMap.Size = new System.Drawing.Size(914, 184);
             this.tcMap.TabIndex = 0;
             // 
             // tpMap
@@ -429,7 +441,7 @@
             this.tpMap.Location = new System.Drawing.Point(4, 23);
             this.tpMap.Name = "tpMap";
             this.tpMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMap.Size = new System.Drawing.Size(906, 149);
+            this.tpMap.Size = new System.Drawing.Size(906, 157);
             this.tpMap.TabIndex = 0;
             this.tpMap.Text = "Карта-схема";
             this.tpMap.UseVisualStyleBackColor = true;
@@ -442,7 +454,7 @@
             this.pnlWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlWrapper.Location = new System.Drawing.Point(3, 3);
             this.pnlWrapper.Name = "pnlWrapper";
-            this.pnlWrapper.Size = new System.Drawing.Size(900, 143);
+            this.pnlWrapper.Size = new System.Drawing.Size(900, 151);
             this.pnlWrapper.TabIndex = 0;
             // 
             // splitter1
@@ -450,7 +462,7 @@
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
             this.splitter1.Location = new System.Drawing.Point(596, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(12, 143);
+            this.splitter1.Size = new System.Drawing.Size(12, 151);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
@@ -460,7 +472,7 @@
             this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMap.Location = new System.Drawing.Point(0, 0);
             this.pnlMap.Name = "pnlMap";
-            this.pnlMap.Size = new System.Drawing.Size(608, 143);
+            this.pnlMap.Size = new System.Drawing.Size(608, 151);
             this.pnlMap.TabIndex = 1;
             // 
             // pnlInfo
@@ -469,7 +481,7 @@
             this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlInfo.Location = new System.Drawing.Point(608, 0);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(292, 143);
+            this.pnlInfo.Size = new System.Drawing.Size(292, 151);
             this.pnlInfo.TabIndex = 0;
             // 
             // pgMapControl
@@ -477,7 +489,7 @@
             this.pgMapControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgMapControl.Location = new System.Drawing.Point(0, 0);
             this.pgMapControl.Name = "pgMapControl";
-            this.pgMapControl.Size = new System.Drawing.Size(292, 143);
+            this.pgMapControl.Size = new System.Drawing.Size(292, 151);
             this.pgMapControl.TabIndex = 0;
             this.pgMapControl.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgMapControl_PropertyValueChanged);
             // 
@@ -563,11 +575,65 @@
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 19);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(235, 14);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Размеры помещения или территори, м:";
+            // 
+            // txtRoomWidth
+            // 
+            this.txtRoomWidth.Location = new System.Drawing.Point(364, 16);
+            this.txtRoomWidth.Name = "txtRoomWidth";
+            this.txtRoomWidth.Size = new System.Drawing.Size(225, 22);
+            this.txtRoomWidth.TabIndex = 18;
+            this.txtRoomWidth.TextChanged += new System.EventHandler(this.txtRoomWidth_TextChanged);
+            // 
+            // txtRoomHeight
+            // 
+            this.txtRoomHeight.Location = new System.Drawing.Point(658, 16);
+            this.txtRoomHeight.Name = "txtRoomHeight";
+            this.txtRoomHeight.ReadOnly = true;
+            this.txtRoomHeight.Size = new System.Drawing.Size(244, 22);
+            this.txtRoomHeight.TabIndex = 19;
+            this.txtRoomHeight.TextChanged += new System.EventHandler(this.txtRoomWidth_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(301, 19);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 14);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Ширина:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(606, 19);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(46, 14);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Длина:";
+            // 
+            // btnAddPoint
+            // 
+            this.btnAddPoint.Location = new System.Drawing.Point(233, 9);
+            this.btnAddPoint.Name = "btnAddPoint";
+            this.btnAddPoint.Size = new System.Drawing.Size(123, 39);
+            this.btnAddPoint.TabIndex = 6;
+            this.btnAddPoint.Text = "Добавить расчетную точку\r\n";
+            this.btnAddPoint.UseVisualStyleBackColor = true;
+            this.btnAddPoint.Click += new System.EventHandler(this.btnAddPoint_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(914, 505);
+            this.ClientSize = new System.Drawing.Size(914, 530);
             this.Controls.Add(this.pnlData);
             this.Controls.Add(this.pnlControls);
             this.Controls.Add(this.msMain);
@@ -649,6 +715,12 @@
         private System.Windows.Forms.WebBrowser wbCalc;
         private System.Windows.Forms.ToolStripMenuItem miLinkElements;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtRoomHeight;
+        private System.Windows.Forms.TextBox txtRoomWidth;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnAddPoint;
     }
 }
 

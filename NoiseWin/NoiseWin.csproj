@@ -69,6 +69,7 @@
     <Compile Include="NoiseHelper.cs" />
     <Compile Include="NoiseMapElement.cs" />
     <Compile Include="PartitionMapElement.cs" />
+    <Compile Include="PointMapElement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

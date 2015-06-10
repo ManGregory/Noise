@@ -27,15 +27,18 @@ namespace NoiseWin
             {
                 item.Location = new Point((_map.MapElements.Count - 1)*50, 0);
             }
+            SetAllDistances();
             // создаем новую кнопку для добавления на панель
             var newMapControl = new Button
             {
                 Parent = pnlMap,
                 Width = 50,
                 Height = 50,
-                Text = item.Number.ToString(),
+                Text =  item.MapElementType == MapElementType.Point ? "Р" : item.Number.ToString(),
                 Font = new Font("Microsoft Sans Serif", 25F),
-                ForeColor = item.MapElementType == MapElementType.NoiseSource ? Color.Red : Color.Blue,
+                ForeColor = item.MapElementType == MapElementType.NoiseSource
+                    ? Color.Red
+                    : item.MapElementType == MapElementType.Partition ? Color.Blue : Color.Green,
                 Location = item.Location,
                 Tag = item,
                 ContextMenuStrip = msMapControl,
@@ -49,6 +52,11 @@ namespace NoiseWin
             BindNoiseList();
         }
 
+        private MapElement PointMapElement()
+        {
+            return _map.MapElements.FirstOrDefault(m => m.MapElementType == MapElementType.Point);
+        }
+
         /// <summary>
         /// Обновление информации в таблице источников шума
         /// </summary>
@@ -59,6 +67,23 @@ namespace NoiseWin
             lstNoiseSources.DataSource = noiseMapElements;            
             // обновляем таблицу в браузере
             wbInputTable.DocumentText = NoiseHelper.CreateInputDataTable(noiseMapElements);
+        }
+
+        private void SetAllDistances()
+        {
+            var pointMapElement = PointMapElement();
+            if (pointMapElement != null)
+            {
+                foreach (var mapElement in _map.MapElements)
+                {
+                    var noiseMapElement = mapElement as NoiseMapElement;
+                    if (noiseMapElement != null)
+                    {
+                        noiseMapElement.Distance =
+                            Map.CalcDistance(pointMapElement, noiseMapElement, _map.RoomSize, pnlMap.Size);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -109,6 +134,7 @@ namespace NoiseWin
         /// <param name="e"></param>
         private void pnlMap_Paint(object sender, PaintEventArgs e)
         {            
+            SetAllDistances();
             var p = sender as Panel;
             var g = e.Graphics;
             g.Clear(p.BackColor);
@@ -116,24 +142,51 @@ namespace NoiseWin
             {
                 var mapElement = control.Tag as MapElement;
                 // обрабатываем только перегородки
-                if ((mapElement != null) && (mapElement.MapElementType == MapElementType.Partition))
+                if (mapElement != null)
                 {
-                    // получаем все кнопки связанные с этой перегородкой
-                    var linkedButtons = FindAllLinkedButtons(p, mapElement.LinkedMapElements);
-                    foreach (var btn in linkedButtons)
+                    if (mapElement.MapElementType == MapElementType.Partition)
                     {
-                        // рисуем линию от середины одной кнопки к середине другой
-                        var fromPoint = new Point(control.Left + control.Width/2, control.Top + control.Height/2);
-                        var toPoint = new Point(btn.Left + btn.Width/2, btn.Top + btn.Height/2);
-                        var pen = new Pen(Color.Black, 2)
+                        // получаем все кнопки связанные с этой перегородкой
+                        var linkedButtons = FindAllLinkedButtons(p, mapElement.LinkedMapElements);
+                        foreach (var btn in linkedButtons)
                         {
-                            CustomEndCap = new AdjustableArrowCap(3, 5),
-                            StartCap = LineCap.RoundAnchor
-                        };
-                        g.DrawLine(pen, fromPoint, toPoint);
+                            // рисуем линию от середины одной кнопки к середине другой
+                            var fromPoint = new Point(control.Left + control.Width/2, control.Top + control.Height/2);
+                            var toPoint = new Point(btn.Left + btn.Width/2, btn.Top + btn.Height/2);
+                            var pen = new Pen(Color.Black, 2)
+                            {
+                                CustomEndCap = new AdjustableArrowCap(3, 5),
+                                StartCap = LineCap.RoundAnchor
+                            };
+                            g.DrawLine(pen, fromPoint, toPoint);
+                        }
+                    } 
+                    else if (mapElement.MapElementType == MapElementType.NoiseSource)
+                    {
+                        var pointButton = FindPointButton(p);
+                        if (pointButton != null)
+                        {
+                            var fromPoint = new Point(control.Left + control.Width / 2, control.Top + control.Height / 2);
+                            var toPoint = new Point(pointButton.Left + pointButton.Width / 2, pointButton.Top + pointButton.Height / 2);
+                            var pen = new Pen(Color.Black, 2)
+                            {
+                                CustomEndCap = new AdjustableArrowCap(3, 5),
+                                StartCap = LineCap.RoundAnchor
+                            };
+                            g.DrawLine(pen, fromPoint, toPoint);
+                        }
                     }
                 }
             }
+        }
+
+        private Button FindPointButton(Panel panel)
+        {
+            return (from Control c in panel.Controls
+                let element = c.Tag as MapElement
+                where
+                    element != null && element.MapElementType == MapElementType.Point
+                select c as Button).FirstOrDefault();
         }
 
         /// <summary>
@@ -207,6 +260,7 @@ namespace NoiseWin
             }
             _map.TableType = map.TableType;
             _map.AdditionalNoiseCharacteristic = map.AdditionalNoiseCharacteristic;
+            _map.RoomSize = map.RoomSize;
             // Выбор дополнительных характеристик
             SelectAdditionalCharacteristic();
         }
@@ -230,6 +284,8 @@ namespace NoiseWin
                 cmbSummaryDurationOfExposure.Items.IndexOf(_map.AdditionalNoiseCharacteristic.SummaryDurationOfExposure);
             cmbInRoom.SelectedIndex = _map.AdditionalNoiseCharacteristic.InRoom ? 1 : 0;
             cmbTableType.SelectedIndex = _map.TableType - 1;
+            txtRoomWidth.Text = _map.RoomSize.Width.ToString();
+            txtRoomHeight.Text = _map.RoomSize.Height.ToString();
             _isGetAdditionalNoise = true;
         }
 
@@ -353,10 +409,24 @@ namespace NoiseWin
         /// <param name="e"></param>
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            // расчитываем значения
-            wbCalc.DocumentText = NoiseHelper.Calc(_map);
-            // выбираем вкладку с расчетами
-            tcMap.SelectTab(tpCalcTable);
+            if (CheckInput())
+            {
+                // расчитываем значения
+                wbCalc.DocumentText = NoiseHelper.Calc(_map);
+                // выбираем вкладку с расчетами
+                tcMap.SelectTab(tpCalcTable);
+            }
+        }
+
+        private bool CheckInput()
+        {
+            if (cmbRoomType.SelectedIndex < 1)
+            {
+                MessageBox.Show("Выберите тип помещения");
+                cmbRoomType.DroppedDown = true;
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -459,7 +529,7 @@ namespace NoiseWin
                 var mapElement = btn.Tag as MapElement;
                 if (mapElement != null)
                 {
-                    miLinkElements.Visible = mapElement.MapElementType != MapElementType.NoiseSource;                
+                    miLinkElements.Visible = mapElement.MapElementType == MapElementType.Partition;                
                     miLinkElements.Text = mapElement.MapElementType == MapElementType.NoiseSource ? "Связать с перегородками" : "Связать с источниками";
                 }
             }
@@ -494,6 +564,30 @@ namespace NoiseWin
         private void timer1_Tick(object sender, EventArgs e)
         {
             pnlMap.Refresh();
+        }
+
+        private void txtRoomWidth_TextChanged(object sender, EventArgs e)
+        {            
+            if (_isGetAdditionalNoise)
+            {
+                float width;
+                float height;
+                float.TryParse(txtRoomWidth.Text, out width);
+                float.TryParse(txtRoomHeight.Text, out height);
+                txtRoomHeight.Text = Math.Round(width*((double)pnlMap.Size.Height/pnlMap.Width), 2).ToString();
+                _map.RoomSize = new SizeF(width, height);
+            }
+        }
+
+        private void btnAddPoint_Click(object sender, EventArgs e)
+        {
+            if (PointMapElement() == null)
+            {
+                _map.MapElements.Add(new PointMapElement
+                {
+                    Number = GetMapElementNumber(MapElementType.Point)
+                });
+            }
         }
     }
 }

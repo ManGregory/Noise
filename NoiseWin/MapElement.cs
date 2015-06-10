@@ -19,7 +19,9 @@ namespace NoiseWin
         // Источник шума
         NoiseSource,
         // Перегородка
-        Partition
+        Partition,
+        //
+        Point
     }
 
     /// <summary>

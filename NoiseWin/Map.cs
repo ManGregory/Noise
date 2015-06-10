@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,10 @@ namespace NoiseWin
         /// Список элементов карты (источников шума и перегородок)
         /// </summary>
         public BindingList<MapElement> MapElements { get; set; }
+        /// <summary>
+        /// Размер комнаты
+        /// </summary>
+        public SizeF RoomSize { get; set; }
 
         public Map()
         {
@@ -69,6 +74,17 @@ namespace NoiseWin
             var map = (Map)obj;
             reader.Close();
             return map;
+        }
+
+        public static double CalcDistance(MapElement mapElement1, MapElement mapElement2, SizeF roomSize, Size pixelSize)
+        {
+            var x1 = (mapElement1.Location.X * roomSize.Width) / pixelSize.Width;
+            var y1 = (mapElement1.Location.Y * roomSize.Height) / pixelSize.Height;
+            var x2 = (mapElement2.Location.X * roomSize.Width) / pixelSize.Width;
+            var y2 = (mapElement2.Location.Y * roomSize.Height) / pixelSize.Height;
+            return
+                Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) +
+                                     Math.Pow(y2 - y1, 2)), 2);
         }
     }
 }
