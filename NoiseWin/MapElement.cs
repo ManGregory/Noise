@@ -30,6 +30,7 @@ namespace NoiseWin
     [Serializable]
     [System.Xml.Serialization.XmlInclude(typeof(NoiseMapElement))]
     [System.Xml.Serialization.XmlInclude(typeof(PartitionMapElement))]
+    [System.Xml.Serialization.XmlInclude(typeof(PointMapElement))]
     public abstract class MapElement : INotifyPropertyChanged
     {
         /// <summary>

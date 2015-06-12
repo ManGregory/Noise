@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoiseWin
 {
-    class PointMapElement : MapElement
+    public class PointMapElement : MapElement
     {
         public PointMapElement()
         {
